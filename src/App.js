@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Header from "./header.js"
+import Middle from "./middle.js"
+import boxesData from './boxesData.js'
+import Box from './Box.js'
+
+export default function App(){
+
+  const [boxDataState, setBoxDataState] = React.useState(boxesData);
+
+  function toggle(eachBoxSquaresId){
+    setBoxDataState((prevState) => {
+      return prevState.map((square) => {
+          return square.id === eachBoxSquaresId ? {...square, on: !square.on} : {...square}
+      })
+    })
+
+    console.log(boxDataState)
+  }
+
+
+
+
+
+
+
+  const eachBox = boxDataState.map( individualBox => (
+    <Box 
+    keyProp={individualBox.id}
+    idProp={individualBox.id}
+    onProp={individualBox.on}
+    toggle={() => toggle(individualBox.id)}
+    />
+  ))
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  <div>
+    <Header />
+    <Middle className='middle--app'/>
+    <div className='box-container'>
+    {eachBox}
     </div>
-  );
-}
-
-export default App;
+    
+  </div>
+  
+  )}
